@@ -2,6 +2,10 @@
 micronaut:
   application:
     name: prueba-mongo
+  io:
+    watch:
+      paths: src/main
+      restart: true
 
 ---
 mongodb:

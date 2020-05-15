@@ -2,6 +2,10 @@ package prueba.mongo.data.mongo;
 
 import javax.inject.Singleton;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
@@ -42,8 +46,9 @@ public class FixtureRepositoryMongo implements FixtureRepository{
         return mongoClient.getDatabase(DB_NAME).getCollection(COLLECTION_NAME, Fixture.class);
     }
 
-	public MongoClient getMongoClient() {
-		return mongoClient;
+	@Override
+	public Single<Fixture> find(@NotNull Long id) {
+		return Single.fromPublisher(getCollection().find(new Document("homeClubId", id)));
 	}
     
 }

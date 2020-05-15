@@ -49,7 +49,6 @@ public class FixtureRepositoryMongoTest {
 
 	@AfterEach
 	public void afterEach() throws Exception {
-		System.out.println("entro al after");
 		this.mongod.stop();
 		this.mongodExe.stop();
 		this.mongo.close();
@@ -57,16 +56,12 @@ public class FixtureRepositoryMongoTest {
 
 	@Test
 	public void testCrud() {
-		System.out.println("entro al test");
 		Long totalFixtures = repository.count().blockingGet().longValue();
-		System.out.println(totalFixtures);
 		repository.save(new Fixture(1L, 2L, (short) 5, (short) 0, new Date())).subscribe();
-		System.out.println("guardo 1");
 		repository.save(new Fixture(3L, 4L, (short) 5, (short) 0, new Date())).subscribe();
-		System.out.println("guardo 2");
 		assertEquals(totalFixtures + 2, repository.count().blockingGet().longValue());
-		System.out.println(repository.count().blockingGet().longValue());
 		assertEquals(totalFixtures + 2, repository.findAll().toList().blockingGet().size());
-		System.out.println(repository.findAll().toList().blockingGet().size());
+		Fixture fixture = repository.find(1L).blockingGet();
+		assertEquals(1L, fixture.getHomeClubId());
 	}
 }

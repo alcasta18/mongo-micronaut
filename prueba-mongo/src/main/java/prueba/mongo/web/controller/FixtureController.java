@@ -39,5 +39,10 @@ public class FixtureController {
 	public Flowable<Fixture> list() {
 	    return fixtureRepository.findAll();
 	}
+	
+	@Get("/{id}")
+	public Single<Fixture> find(Long id) {
+	    return fixtureRepository.find(id);
+	}
 
 }
